@@ -16,10 +16,9 @@ function ListItem({ result }: any) {
           </Link>
           <Link href={`/edit/${item._id}`}>📝</Link>
           <span
-            onClick={() => {
-              fetch("/api/post/delete", {
+            onClick={(e) => {
+              fetch(`/api/post/delete?_id=${item._id}`, {
                 method: "DELETE",
-                body: item._id,
               })
                 .then((r) => {
                   if (r.status == 200) {
@@ -30,6 +29,14 @@ function ListItem({ result }: any) {
                 })
                 .then((result) => {
                   //성공시 실행할코드
+                  const target = e.target as HTMLSpanElement;
+                  if (target.parentElement) {
+                    const parent = target.parentElement;
+                    parent.style.opacity = "0";
+                    setTimeout(() => {
+                      parent.style.display = "none";
+                    }, 1000);
+                  }
                 })
                 .catch((error) => {
                   //인터넷문제 등으로 실패시 실행할코드

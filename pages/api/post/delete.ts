@@ -4,7 +4,8 @@ import { connectDB } from "../../../util/database";
 export default async function handler(req: any, res: any) {
   if (req.method === "DELETE") {
     try {
-      const _id = req.body;
+      const { _id } = req.query;
+      console.log(_id);
 
       const db = (await connectDB).db("forum");
       let result = await db
