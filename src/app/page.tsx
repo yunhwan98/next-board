@@ -8,6 +8,6 @@ export default async function Home() {
 
   let result = await db.collection("post").find().toArray();
 
-  console.log(result);
+  //console.log(result);
   return <div>안녕</div>;
 }
