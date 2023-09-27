@@ -1,7 +1,7 @@
 import React from "react";
 import { connectDB } from "../../../../util/database";
 import { ObjectId } from "mongodb";
-
+import Comment from "./Comment";
 interface DetailProps {}
 
 async function Detail(props: any) {
@@ -17,6 +17,7 @@ async function Detail(props: any) {
       <h4>상세페이지</h4>
       <h4>{result?.title}</h4>
       <h4>{result?.content}</h4>
+      <Comment _id={id} />
     </div>
   );
 }
