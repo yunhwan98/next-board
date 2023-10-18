@@ -24,8 +24,15 @@ export default async function handler(req: any, res: any) {
     try {
       const db = (await connectDB).db("forum");
       let result = await db.collection("comment").insertOne(data);
-      console.log(result);
-      return res.redirect(302, "/list");
+
+      let comments = await db
+        .collection("comment")
+        //가져오고 싶은 게시물의 _id를 넣어주기
+        .find({ parent: new ObjectId(bodyJSON.parent) })
+        .toArray();
+
+      return res.status(200).json(comments);
+      //return res.redirect(302, "/list");
     } catch (error) {
       console.log(error);
       return res.status(400).json("입력을 확인해주세요");
