@@ -3,7 +3,7 @@
 import Link from "next/link";
 
 interface ListItemProps {
-  result: { _id: any; title: string; content: string }[];
+  result: { _id: string; title: string; content: string }[];
 }
 
 function ListItem({ result }: any) {

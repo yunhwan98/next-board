@@ -11,7 +11,11 @@ async function List() {
   const db = (await connectDB).db("forum");
   let result = await db.collection("post").find().toArray();
 
-  return <div className="list-bg">{<ListItem result={result} />}</div>;
+  let res = result.map((it) => {
+    return { ...it, _id: it._id.toString() };
+  });
+
+  return <div className="list-bg">{<ListItem result={res} />}</div>;
 }
 
 export default List;
