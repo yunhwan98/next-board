@@ -5,7 +5,7 @@ import { authOptions } from "../auth/[...nextauth]";
 
 export default async function handler(req: any, res: any) {
   //현재 유저의 정보를 받아오기
-  let session = await getServerSession(req, res, authOptions);
+  let session: any = await getServerSession(req, res, authOptions);
 
   console.log(session);
   if (req.method === "POST") {

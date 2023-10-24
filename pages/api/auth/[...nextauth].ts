@@ -4,8 +4,16 @@ import GithubProvider from "next-auth/providers/github";
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcrypt";
 import { connectDB } from "../../../util/database";
+import { ObjectId } from "mongodb";
 
-export const authOptions = {
+interface User {
+  _id: ObjectId;
+  name: string;
+  email: string;
+  password: string;
+}
+
+export const authOptions: any = {
   providers: [
     GithubProvider({
       clientId: "c3c72837ec4d976f9716",
@@ -22,24 +30,26 @@ export const authOptions = {
       //2. 로그인요청시 실행되는코드
       //직접 DB에서 아이디,비번 비교하고
       //아이디,비번 맞으면 return 결과, 틀리면 return null 해야함
-      async authorize(credentials) {
+      async authorize(credentials, req) {
         let db = (await connectDB).db("forum");
         let user = await db
           .collection("user_cred")
-          .findOne({ email: credentials.email });
+          .findOne({ email: credentials!.email });
+
         if (!user) {
           console.log("해당 이메일은 없음");
           return null;
         }
         const pwcheck = await bcrypt.compare(
-          credentials.password,
+          credentials!.password,
           user.password
         );
         if (!pwcheck) {
           console.log("비번틀림");
           return null;
         }
-        return user;
+        console.log(user);
+        return user as any;
       },
     }),
   ],
@@ -53,7 +63,7 @@ export const authOptions = {
   callbacks: {
     //4. jwt 만들 때 실행되는 코드
     //user변수는 DB의 유저정보담겨있고 token.user에 뭐 저장하면 jwt에 들어갑니다.
-    jwt: async ({ token, user }) => {
+    jwt: async ({ token, user }: any) => {
       if (user) {
         token.user = {};
         token.user.name = user.name;
@@ -62,7 +72,7 @@ export const authOptions = {
       return token;
     },
     //5. 유저 세션이 조회될 때 마다 실행되는 코드
-    session: async ({ session, token }) => {
+    session: async ({ session, token }: any) => {
       session.user = token.user;
       return session;
     },

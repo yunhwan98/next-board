@@ -2,7 +2,7 @@
 
 import React from "react";
 
-function Error({ error, reset }) {
+function Error({ error, reset }: any) {
   return (
     <div>
       error
