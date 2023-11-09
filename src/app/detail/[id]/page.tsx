@@ -17,6 +17,7 @@ async function Detail(props: any) {
       <h4>상세페이지</h4>
       <h4>{result?.title}</h4>
       <h4>{result?.content}</h4>
+      <img src={result?.image} />
       <Comment _id={id} />
     </div>
   );
