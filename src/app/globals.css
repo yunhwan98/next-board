@@ -60,3 +60,11 @@ a {
   opacity: 1;
   transition: all 1s;
 }
+
+.dark .navbar {
+  color: white;
+  background-color: black;
+}
+.dark .navbar a {
+  color: white;
+}
